@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name        Deckbox Reserved List
 // @namespace   https://deckbox.org/
-// @version     1
+// @version     2
 // @grant       none
+// @match        https://deckbox.org/*
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js
 // ==/UserScript==
 var reservedList = [
@@ -579,10 +580,14 @@ var reservedList = [
   'Yavimaya Hollow',
   'Yawgmoth\'s Bargain'
 ]
-var cardList = $('a.simple')
+
+$.noConflict();
+jQuery( document ).ready(function( $ ) {
+  var cardList = $('a.simple')
 cardList.each(function () {
-  cardText = $(this).text()
+  var cardText = $(this).text()
   if (reservedList.includes(cardText)) {
-    $(this).append(' \u2605')
+      $(this).parent().append('<div class="inline_block right highlanderPoints btn btn-warning btn-xs" title="Reserved List" style="margin: 0 3px;">\u2605</div>');
   }
 })
+});
